@@ -3,6 +3,7 @@ import rclpy #python library for ROS2
 from rclpy.node import Node
 import smbus			#import SMBus module of I2C
 from time import sleep   
+from geometry_msgs.msg import Twist
 
 #some MPU6050 Registers and their Address
 PWR_MGMT_1   = 0x6B
@@ -24,9 +25,11 @@ class MyNode(Node):
 
     def __init__(self):
         super().__init__("imu_node")
-        self.create_timer(1.0, self.timer_callback)
+        self.cmd_vel_pub_ = self.create_publisher(Twist, "/turtle1/cmd_vel", 10)
+        self.timer_ = self.create_timer(0.5, self.send_imu_command)
+        self.get_logger().info("IMU Node has started.")
     
-    def timer_callback(self):
+    def send_imu_command(self):
         #Read Accelerometer raw value
         acc_x = read_raw_data(ACCEL_XOUT_H)
         acc_y = read_raw_data(ACCEL_YOUT_H)
@@ -45,16 +48,16 @@ class MyNode(Node):
         Gx = gyro_x/131.0
         Gy = gyro_y/131.0
         Gz = gyro_z/131.0
+
+        msg = Twist()
+        msg.linear.x = Ax
+        msg.linear.y = Ay
+        msg.linear.z = Az
+        msg.angular.x = Gx
+        msg.angular.y = Gy
+        msg.angular.z = Gz
+        self.cmd_vel_pub_.publish(msg)
         
-        self.get_logger().info("Gx = %.2f" %Gx)
-        self.get_logger().info("Gy = %.2f" %Gy)
-        self.get_logger().info("Gz = %.2f" %Gz)
-        self.get_logger().info("Ax = %.2f" %Ax)
-        self.get_logger().info("Ay = %.2f" %Ay)
-        self.get_logger().info("Az = %.2f" %Az)
-       
-
-
 def MPU_Init():
 	#write to sample rate register
 	bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
