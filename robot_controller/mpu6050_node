@@ -1,9 +1,13 @@
+#!/usr/bin/env python3
 '''
         Read Gyro and Accelerometer by Interfacing Raspberry Pi with MPU6050 using Python
 	http://www.electronicwings.com
 '''
+
 import smbus			#import SMBus module of I2C
 from time import sleep          #import
+import rclpy #python library for ROS2
+from rclpy.node import Node
 
 #some MPU6050 Registers and their Address
 PWR_MGMT_1   = 0x6B
@@ -17,6 +21,37 @@ ACCEL_ZOUT_H = 0x3F
 GYRO_XOUT_H  = 0x43
 GYRO_YOUT_H  = 0x45
 GYRO_ZOUT_H  = 0x47
+
+bus = smbus.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
+Device_Address = 0x68   # MPU6050 device address
+
+class MyNode(Node):
+
+    def __init__(self):
+        super().__init__("6050_node")
+        self.create_timer(1.0, self.timer_callback)
+    
+    def timer_callback(self):
+        #Read Accelerometer raw value
+        acc_x = read_raw_data(ACCEL_XOUT_H)
+        acc_y = read_raw_data(ACCEL_YOUT_H)
+        acc_z = read_raw_data(ACCEL_ZOUT_H)
+        
+        #Read Gyroscope raw value
+        gyro_x = read_raw_data(GYRO_XOUT_H)
+        gyro_y = read_raw_data(GYRO_YOUT_H)
+        gyro_z = read_raw_data(GYRO_ZOUT_H)
+        
+        #Full scale range +/- 250 degree/C as per sensitivity scale factor
+        Ax = acc_x/16384.0
+        Ay = acc_y/16384.0
+        Az = acc_z/16384.0
+        
+        Gx = gyro_x/131.0
+        Gy = gyro_y/131.0
+        Gz = gyro_z/131.0
+        
+        self.get_logger().info("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)
 
 
 def MPU_Init():
@@ -49,34 +84,15 @@ def read_raw_data(addr):
         return value
 
 
-bus = smbus.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
-Device_Address = 0x68   # MPU6050 device address
+def main(args=None):
+    rclpy.init(args=args)
+    MPU_Init()
 
-MPU_Init()
+    #CODE GOES HERE
+    node = MyNode()
+    rclpy.spin(node)
+    rclpy.shutdown()
 
-print (" Reading Data of Gyroscope and Accelerometer")
-
-while True:
-	
-	#Read Accelerometer raw value
-	acc_x = read_raw_data(ACCEL_XOUT_H)
-	acc_y = read_raw_data(ACCEL_YOUT_H)
-	acc_z = read_raw_data(ACCEL_ZOUT_H)
-	
-	#Read Gyroscope raw value
-	gyro_x = read_raw_data(GYRO_XOUT_H)
-	gyro_y = read_raw_data(GYRO_YOUT_H)
-	gyro_z = read_raw_data(GYRO_ZOUT_H)
-	
-	#Full scale range +/- 250 degree/C as per sensitivity scale factor
-	Ax = acc_x/16384.0
-	Ay = acc_y/16384.0
-	Az = acc_z/16384.0
-	
-	Gx = gyro_x/131.0
-	Gy = gyro_y/131.0
-	Gz = gyro_z/131.0
-	
-
-	print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az) 	
-	sleep(1)
+#This lets us execute the file from terminal
+if __name__== '__main__':
+    main()
