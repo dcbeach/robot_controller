@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "6050_node = robot_controller.mpu6050_node:main"
+            "test_node = robot_controller.mpu6050_node:main"
         ],
     },
 )
