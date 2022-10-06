@@ -23,7 +23,7 @@ Device_Address = 0x68   # MPU6050 device address
 class MyNode(Node):
 
     def __init__(self):
-        super().__init__("6050_node")
+        super().__init__("imu_node")
         self.create_timer(1.0, self.timer_callback)
     
     def timer_callback(self):
