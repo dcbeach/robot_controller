@@ -46,7 +46,13 @@ class MyNode(Node):
         Gy = gyro_y/131.0
         Gz = gyro_z/131.0
         
-        self.get_logger().info("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)
+        self.get_logger().info("Gx = %.2f" %Gx)
+        self.get_logger().info("Gy = %.2f" %Gy)
+        self.get_logger().info("Gz = %.2f" %Gz)
+        self.get_logger().info("Ax = %.2f" %Ax)
+        self.get_logger().info("Ay = %.2f" %Ay)
+        self.get_logger().info("Az = %.2f" %Az)
+       
 
 
 def MPU_Init():
