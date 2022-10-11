@@ -48,6 +48,7 @@ class MyNode(Node):
         return data
 
     def write(self, x):
+        x = x + "/"
         arduino.write(bytes(x, 'utf-8'))
         time.sleep(0.1)
 
