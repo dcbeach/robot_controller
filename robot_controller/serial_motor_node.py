@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from socket import MSG_BCAST
 import rclpy #python library for ROS2
 from rclpy.node import Node
 import serial
@@ -27,11 +26,11 @@ class MyNode(Node):
 
     def listener_callback(self, msg: String):
         print("test")
-        self.get_logger().info:(str(msg))
-        self.send_command(str(msg))
+        self.get_logger().info:(str(msg.data))
+        self.send_command(str(msg.data))
     
     def send_command(self, msg):
-        self.write(msg)
+        self.write(str(msg.data))
         response = self.read()
         if (response == "CR"):
             self.get_logger().info("Arduino confirmed command...")
