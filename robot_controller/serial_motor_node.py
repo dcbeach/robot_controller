@@ -34,7 +34,7 @@ class MyNode(Node):
         response = ""
         while response == "":
             response = self.read()
-            
+
         if (response == "CR"):
             self.get_logger().info("Arduino confirmed command...")
         else:
@@ -43,7 +43,8 @@ class MyNode(Node):
         #self.cmd_vel_pub_.publish(command)
 
     def read(self):
-        data = arduino.readline()
+        data = arduino.readline().decode('utf-8')
+        print(data)
         return data
 
     def write(self, x):
