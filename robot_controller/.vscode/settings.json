@@ -1,0 +1,16 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/doug/ros2_ws/install/robot_controller/lib/python3.10/site-packages",
+        "/home/doug/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages",
+        "/home/doug/ros2_ws/install/arduino_com/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/doug/ros2_ws/install/robot_controller/lib/python3.10/site-packages",
+        "/home/doug/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages",
+        "/home/doug/ros2_ws/install/arduino_com/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
