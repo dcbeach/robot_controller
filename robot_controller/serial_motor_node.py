@@ -31,7 +31,7 @@ class MyNode(Node):
     def send_command(self, msg):
         self.write(msg.data)
         response = self.read()
-        if (msg.data == response):
+        if (response == "CR"):
             self.get_logger().info("Arduino confirmed command...")
         else:
             self.get_logger().info("Arduino command failed...")    
