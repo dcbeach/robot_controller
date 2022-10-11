@@ -25,18 +25,18 @@ class MyNode(Node):
         self.subscription # prevent unused variable warning
 
     def listener_callback(self, msg: String):
-        print(str(msg.data))
-        self.get_logger().info:(str(msg.data))
+        self.get_logger().info(str(msg.data))
         self.send_command(str(msg.data))
     
     def send_command(self, msg):
+        print("The message to write = " + msg)
         self.write(msg)
         response = self.read()
         if (response == "CR"):
             self.get_logger().info("Arduino confirmed command...")
         else:
             self.get_logger().info(response)  
-            self.get_logger().info("Test")  
+            self.get_logger().info("No Response")  
         #self.cmd_vel_pub_.publish(command)
 
     def read(self):
