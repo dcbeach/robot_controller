@@ -31,7 +31,10 @@ class MyNode(Node):
     def send_command(self, msg):
         print("The message to write = " + msg)
         self.write(msg)
-        response = self.read()
+        response = ""
+        while response == "":
+            response = self.read()
+            
         if (response == "CR"):
             self.get_logger().info("Arduino confirmed command...")
         else:
@@ -45,7 +48,7 @@ class MyNode(Node):
 
     def write(self, x):
         arduino.write(bytes(x, 'utf-8'))
-        time.sleep(0.05)
+        time.sleep(0.1)
 
 def main(args=None):
     rclpy.init(args=args)
