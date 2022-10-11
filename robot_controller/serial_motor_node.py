@@ -7,7 +7,7 @@ from example_interfaces.msg import String
 
 print("Attempting to initiate serial")
 try:
-    arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=11500, timeout=0.1)
+    arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=115200, timeout=0.1)
 except Exception:
     print(Exception)
 
@@ -25,7 +25,7 @@ class MyNode(Node):
         self.subscription # prevent unused variable warning
 
     def listener_callback(self, msg):
-        self.get_logger().info:('I heard: "%s"' % msg.data)
+        self.get_logger().info:(msg.data)
         self.send_command(msg)
     
     def send_command(self, msg):
@@ -34,15 +34,16 @@ class MyNode(Node):
         if (response == "CR"):
             self.get_logger().info("Arduino confirmed command...")
         else:
-            self.get_logger().info("Arduino command failed...")    
+            self.get_logger().info(response)  
+            self.get_logger().info("Test")  
         #self.cmd_vel_pub_.publish(command)
 
-    def read():
+    def read(self):
         data = arduino.readline()
         return data
 
     def write(self, x):
-        arduino.write(bytes(x, 'ut-8f'))
+        arduino.write(bytes(x, 'utf-8'))
         time.sleep(0.05)
 
 def main(args=None):
