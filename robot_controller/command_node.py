@@ -8,7 +8,7 @@ class CommandNode(Node):
     def __init__(self):
         super().__init__("cmd_node")
         self.cmd_vel_pub_ = self.create_publisher(String, "/robot/movement", 10)
-        self.timer_ = self.create_timer(0.5, self.send_velocity_command)
+        self.timer_ = self.create_timer(10, self.send_velocity_command)
         self.get_logger().info("Command Node Initiated...")
 
     def send_velocity_command(self):
