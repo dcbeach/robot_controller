@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from example_interfaces.msg import String
+from std_msgs.msg import String
 
 class CommandNode(Node):
     def __init__(self):

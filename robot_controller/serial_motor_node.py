@@ -3,7 +3,7 @@ import rclpy #python library for ROS2
 from rclpy.node import Node
 import serial
 import time
-from example_interfaces.msg import String
+from std_msgs.msg import String
 
 print("Attempting to initiate serial")
 try:
@@ -25,6 +25,7 @@ class MyNode(Node):
         self.subscription # prevent unused variable warning
 
     def listener_callback(self, msg):
+        print("test")
         self.get_logger().info:(msg.data)
         self.send_command(msg)
     
