@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             "test_node = robot_controller.mpu6050_node:main",
             "command_node = robot_controller.command_node:main",
-            "serial_node = robot_controller.serial_motor_node:main"
+            "serial_node = robot_controller.serial_motor_node:main",
+            "keyboard_node = robot_controller.keyboard_listener:main"
         ],
     },
 )

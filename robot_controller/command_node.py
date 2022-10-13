@@ -14,7 +14,7 @@ class CommandNode(Node):
     def send_velocity_command(self):
         msg = String()
         msg.data = "Move:1:1"
-        self.cmd_vel_pub_.publish(msg)
+        self.cmd_vel_pub_.publish(str(msg.data))
         
 
 def main(args=None):
@@ -22,3 +22,7 @@ def main(args=None):
     node = CommandNode()
     rclpy.spin(node)
     rclpy.shutdown()
+
+#This lets us execute the file from terminal
+if __name__== '__main__':
+    main()
